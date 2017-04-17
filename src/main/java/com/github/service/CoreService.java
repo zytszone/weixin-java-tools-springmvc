@@ -1,13 +1,14 @@
 package com.github.service;
 
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 
-import java.io.IOException;
-import java.util.List;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * Created by FirenzesEagle on 2016/5/30 0030.
@@ -18,10 +19,10 @@ public interface CoreService {
     /**
      * HttpGet请求
      *
-     *  @param urlWithParams
+     * @param urlWithParams
      * @throws Exception
      */
-    public void requestGet(String urlWithParams) throws IOException;
+    void requestGet(String urlWithParams) throws IOException;
 
     /**
      * HttpPost请求
@@ -31,12 +32,12 @@ public interface CoreService {
      * @throws ClientProtocolException
      * @throws IOException
      */
-    public void requestPost(String url, List<NameValuePair> params) throws ClientProtocolException, IOException;
+    void requestPost(String url, List<NameValuePair> params) throws ClientProtocolException, IOException;
 
     /**
      * 刷新消息路由器
      */
-    public void refreshRouter();
+    void refreshRouter();
 
     /**
      * 路由消息
@@ -44,7 +45,7 @@ public interface CoreService {
      * @param inMessage
      * @return
      */
-    public WxMpXmlOutMessage route(WxMpXmlMessage inMessage);
+    WxMpXmlOutMessage route(WxMpXmlMessage inMessage);
 
     /**
      * 通过openid获得基本用户信息
@@ -53,6 +54,6 @@ public interface CoreService {
      * @param lang
      * @return
      */
-    public WxMpUser getUserInfo(String openid, String lang);
+    WxMpUser getUserInfo(String openid, String lang);
 
 }

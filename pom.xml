@@ -8,18 +8,17 @@
     <artifactId>weixin-java-tools-springmvc</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <!-- base setting -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.locales>zh_CN</project.build.locales>
-        <project.build.jdk>1.8</project.build.jdk>
+        <project.build.jdk>1.7</project.build.jdk>
 
         <!-- plugin versions -->
         <plugin.maven-compiler>3.1</plugin.maven-compiler>
 
         <!-- lib versions -->
-        <weixin-java-mp.version>2.1.1</weixin-java-mp.version>
+        <weixin-java-tools.version>2.6.0</weixin-java-tools.version>
         <junit.version>4.12</junit.version>
         <slf4j.version>1.7.21</slf4j.version>
         <spring.version>4.2.6.RELEASE</spring.version>
@@ -34,14 +33,99 @@
         <gson.version>2.6.2</gson.version>
         <jackson-core.version>2.7.4</jackson-core.version>
         <aspectj.version>1.6.12</aspectj.version>
+        <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+        <plugin.pmd.version>3.5</plugin.pmd.version>
+        <plugin.findbugs.version>3.0.1</plugin.findbugs.version>
     </properties>
+
+    <build>
+        <finalName>wechatService</finalName>
+        <plugins>
+            <!-- Maven插件 配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.maven-compiler}</version>
+                <configuration>
+                    <source>${project.build.jdk}</source>
+                    <target>${project.build.jdk}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${plugin.checkstyle.version}</version>
+                <configuration>
+                    <configLocation>${project.basedir}/build/check-style.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <suppressionsLocation>${project.basedir}/build/check-style-suppression.xml</suppressionsLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${plugin.pmd.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>build/pmd.xml</ruleset>
+                    </rulesets>
+                    <targetJdk>${project.build.jdk}</targetJdk>
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${plugin.findbugs.version}</version>
+                <configuration>
+                    <excludeFilterFile>build/find-bugs-exclude-filter.xml</excludeFilterFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
-            <version>${weixin-java-mp.version}</version>
+            <version>${weixin-java-tools.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${weixin-java-tools.version}</version>
         </dependency>
 
         <!-- junit -->
@@ -217,22 +301,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <finalName>wechatService</finalName>
-        <plugins>
-            <!-- Maven插件 配置 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${plugin.maven-compiler}</version>
-                <configuration>
-                    <source>${project.build.jdk}</source>
-                    <target>${project.build.jdk}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
